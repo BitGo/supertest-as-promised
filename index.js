@@ -34,5 +34,15 @@ module.exports = function () {
 
 module.exports.agent = function () {
   var agent = supertest.agent.apply(null, arguments);
-  return wrap(agent);
+  var result = wrap(agent);
+
+  result.saveToken = function(token) {
+    return agent.saveToken.call(agent, token);
+  };
+ 
+  result.getToken = function() {
+    return agent.token;
+  };
+
+  return result;
 };
